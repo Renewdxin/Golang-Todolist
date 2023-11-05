@@ -29,7 +29,10 @@ func main() {
 	if err := initMySQL(); err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&Todo{})
+	err := DB.AutoMigrate(&Todo{})
+	if err != nil {
+		return
+	}
 
 	r := gin.Default()
 	r.Static("/static", "static")
