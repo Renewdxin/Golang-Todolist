@@ -69,6 +69,18 @@ func main() {
 
 		})
 		v1Group.GET("/todo/:id", func(c *gin.Context) {
+			var todo Todo
+			id := c.Param("id") // 从请求的URL参数中获取ID
+
+			if err := DB.First(&todo, id).Error; err != nil {
+				c.JSON(http.StatusNotFound, gin.H{"error": "Todo not found"})
+			} else {
+				c.JSON(http.StatusOK, gin.H{
+					"code": 200,
+					"msg":  "success",
+					"data": todo,
+				})
+			}
 		})
 
 		//修改U
